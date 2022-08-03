@@ -16,8 +16,8 @@ app.onReady().then(() => {
     })
 });
 
-function manageUserView() {
-    app.context.getMeeting().then((m) => {
+async function manageUserView() {
+    await app.context.getMeeting().then((m) => {
         log('getMeeting()', m);
     }).catch((error) => {
         log('getMeeting() promise failed with error', Webex.Application.ErrorCodes[error]);
