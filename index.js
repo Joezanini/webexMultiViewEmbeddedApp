@@ -13,12 +13,17 @@ app.onReady().then(() => {
         app.on('meeting:infoChanged', (payload) => log('meeting:infoChanged', payload));
         app.on('meeting:roleChanged', (payload) => log('meeting:roleChanged', payload));
         app.on('space:infoChanged', (payload) => log('space:infoChanged', payload));
+        manageUserView();
     })
 });
 
 async function manageUserView() {
     await app.context.getMeeting().then((m) => {
-        log('getMeeting()', m);
+        if(m['userRoles'].includes('HOST')) {
+            window.location.replace('host.html');
+        } else {
+            window.location.replace('participant.html');
+        }
     }).catch((error) => {
         log('getMeeting() promise failed with error', Webex.Application.ErrorCodes[error]);
     });
@@ -32,4 +37,3 @@ function log(type, data) {
     ul.prepend(li);
 }
 
-manageUserView();
