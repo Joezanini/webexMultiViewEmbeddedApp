@@ -3,6 +3,7 @@ const LOCAL_STORAGE_NAME = "webex_kitchen_sink_localstorage";
 const SESSION_STORAGE_NAME = "webex_kitchen_sink_sessionstorage";
 
 var app = new window.Webex.Application();
+const url = 'URL FOR SETSHAREURL()'
 
 app.onReady().then(() => {
     log('onReady()', { message: 'host app is ready' })
@@ -14,10 +15,24 @@ app.onReady().then(() => {
         app.on('meeting:roleChanged', (payload) => log('meeting:roleChanged', payload));
         app.on('space:infoChanged', (payload) => log('space:infoChanged', payload));
         manageUserView();
+        handleSetShare();
     })
 });
 
-async function manageUserView() {
+function handleSetShare() {
+    if (app.isShared) {
+      log('ERROR: setShareUrl() should not be called while session is active');
+      return;
+    }
+    
+    app.setShareUrl(url, url, 'Embedded App with Different Views').then(() => {
+        log('setShareUrl()', { message: 'shared url to participants panel', url: url })
+    }).catch((error) => {
+        log('setShareUrl() failed with error', Webex.Application.ErrorCodes[error]);
+    });
+}
+
+function manageUserView() {
     await app.context.getMeeting().then((m) => {
         if(m['userRoles'].includes('HOST')) {
             window.location.replace('host.html');
