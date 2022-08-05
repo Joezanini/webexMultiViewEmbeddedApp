@@ -2,8 +2,8 @@ const COOKIE_NAME = "webex_kitchen_sink_cookie";
 const LOCAL_STORAGE_NAME = "webex_kitchen_sink_localstorage";
 const SESSION_STORAGE_NAME = "webex_kitchen_sink_sessionstorage";
 
+
 var app = new window.Webex.Application();
-const url = 'https://PASTE START PAGE URL HERE/shared.html'
 
 app.onReady().then(() => {
     log('onReady()', { message: 'host app is ready' })
@@ -14,33 +14,9 @@ app.onReady().then(() => {
         app.on('meeting:infoChanged', (payload) => log('meeting:infoChanged', payload));
         app.on('meeting:roleChanged', (payload) => log('meeting:roleChanged', payload));
         app.on('space:infoChanged', (payload) => log('space:infoChanged', payload));
-        handleSetShare();
-        app.on("application:shareStateChanged", (event) => {
-          manageUserView();
-        });
-    
+        manageUserView();
     })
 });
-
-/*
-Function : handleSetShare()
-Description : assigns the set share url for the embedded App
-              API framework. It fires when app.OnReady is 
-              implemented.
-*/
-function handleSetShare() {
-    if (app.isShared) {
-      log('ERROR: setShareUrl() should not be called while session is active');
-      return;
-    }
-    
-    app.setShareUrl(url, url, 'Embedded App with Different Views').then(() => {
-        log('setShareUrl()', { message: 'shared url to participants panel', url: url })
-    }).catch((error) => {
-        log('setShareUrl() failed with error', Webex.Application.ErrorCodes[error]);
-    });
-}
-
 /*
 Function : manageUserView()
 Description : once the app loads for a m
@@ -62,7 +38,7 @@ function manageUserView() {
 }
 
 /*
-Function : log()
+Function : log(s)
 Description : loging wrapper for debugging.
 */
 function log(type, data) {
@@ -72,4 +48,3 @@ function log(type, data) {
     li.appendChild(payload)
     ul.prepend(li);
 }
-
