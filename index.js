@@ -3,7 +3,7 @@ const LOCAL_STORAGE_NAME = "webex_kitchen_sink_localstorage";
 const SESSION_STORAGE_NAME = "webex_kitchen_sink_sessionstorage";
 
 var app = new window.Webex.Application();
-const url = 'URL FOR SETSHAREURL()'
+const url = 'PASTE THE START PAGE URL HERE'
 
 app.onReady().then(() => {
     log('onReady()', { message: 'host app is ready' })
