@@ -19,6 +19,12 @@ app.onReady().then(() => {
     })
 });
 
+/*
+Function : handleSetShare()
+Description : assigns the set share url for the embedded App
+              API framework. It fires when app.OnReady is 
+              implemented.
+*/
 function handleSetShare() {
     if (app.isShared) {
       log('ERROR: setShareUrl() should not be called while session is active');
@@ -31,10 +37,17 @@ function handleSetShare() {
         log('setShareUrl() failed with error', Webex.Application.ErrorCodes[error]);
     });
 }
-
+/*
+Function : manageUserView()
+Description : once the app loads for a m
+              meeting participant, the function
+              checks the participants role in 
+              the meeting and deligates the content
+              that is visible to the participant
+*/
 function manageUserView() {
     await app.context.getMeeting().then((m) => {
-        if(m['userRoles'].includes('HOST')) {
+        if(m['userRoles'].includes('HOST') || m['userRoles'].includes('COHOST')) {
             window.location.replace('host.html');
         } else {
             window.location.replace('participant.html');
@@ -44,6 +57,10 @@ function manageUserView() {
     });
 }
 
+/*
+Function : log()
+Description : loging wrapper for debugging.
+*/
 function log(type, data) {
     var ul = document.getElementById("console");
     var li = document.createElement("li");
