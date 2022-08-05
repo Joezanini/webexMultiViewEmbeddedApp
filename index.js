@@ -46,7 +46,7 @@ Description : once the app loads for a m
               that is visible to the participant
 */
 function manageUserView() {
-    await app.context.getMeeting().then((m) => {
+    app.context.getMeeting().then((m) => {
         if(m['userRoles'].includes('HOST') || m['userRoles'].includes('COHOST')) {
             window.location.replace('host.html');
         } else {
